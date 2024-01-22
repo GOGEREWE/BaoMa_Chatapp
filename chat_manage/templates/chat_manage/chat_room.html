@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>chat_room</title>
+</head>
+<body>
+    <h3>欢迎来到宝马聊天室{{ room_name }}</h3>
+    <table align="center" cellspacing="1">
+        {% for meg in message %}
+    </table>
+    <form method="get" action="index.html">
+        <table align="center">
+            <tr>
+                <td><input type="text" name="message" maxlength="255" /><input type="submit" value="发送" /></td>
+            </tr>
+
+        </table>
+    </form>
+</body>
+</html>

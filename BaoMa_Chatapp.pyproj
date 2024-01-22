@@ -4,6 +4,7 @@
     <Name>BaoMa_Chatapp</Name>
     <RootNamespace>BaoMa_Chatapp</RootNamespace>
     <InterpreterId>MSBuild|django|$(MSBuildProjectFullPath)</InterpreterId>
+    <TestFramework>Pytest</TestFramework>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -30,11 +31,23 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BaoMa_Chatapp\asgi.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BaoMa_Chatapp\routing.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="chat_manage\admin.py" />
     <Compile Include="chat_manage\apps.py" />
     <Compile Include="chat_manage\migrations\__init__.py" />
     <Compile Include="chat_manage\models.py" />
+    <Compile Include="chat_manage\consumers.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="chat_manage\tests.py" />
+    <Compile Include="chat_manage\urls.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="chat_manage\views.py" />
     <Compile Include="chat_manage\__init__.py" />
     <Compile Include="manage.py" />
@@ -44,6 +57,7 @@
     <Compile Include="BaoMa_Chatapp\wsgi.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="chat_manage\templates\chat_manage\chat_room.html" />
     <Content Include="chat_manage\templates\chat_manage\index.html" />
     <Content Include="requirements.txt" />
   </ItemGroup>

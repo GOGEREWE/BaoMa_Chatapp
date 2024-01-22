@@ -18,11 +18,11 @@ Including another URLconf
 
 # Uncomment next two lines to enable admin:
 #from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 
 urlpatterns = [
     
-    path('',ChatView,)
+    path('',include('chat_manage.urls')),
     # Uncomment the next line to enable the admin:
     #path('admin/', admin.site.urls)
 ]

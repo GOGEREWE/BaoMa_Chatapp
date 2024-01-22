@@ -31,13 +31,14 @@ ALLOWED_HOSTS = []
 # https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-INSTALLED_APPS
 INSTALLED_APPS = [
     # Add your apps here to enable them
-    ''
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
+    'chat_manage',
 ]
 
 # Middleware framework
@@ -73,6 +74,17 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'BaoMa_Chatapp.wsgi.application'
+ASGI_APPLICATION = 'BaoMa_Chatapp.asgi.application'
+
+
+CHANNEL_LAYERS = {
+    "default":{
+        "BACKEND":"channels_redis.core.RedisChannelLayer",
+        "CONFIG":{
+            "hosts":[('localhost',9000)],    
+        },
+    },    
+}
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
