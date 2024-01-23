@@ -57,6 +57,8 @@
     <Compile Include="BaoMa_Chatapp\wsgi.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="chat_manage\static\Chat\chat_room.js" />
+    <Content Include="chat_manage\static\Chat\index.js" />
     <Content Include="chat_manage\templates\chat_manage\chat_room.html" />
     <Content Include="chat_manage\templates\chat_manage\index.html" />
     <Content Include="requirements.txt" />
@@ -65,6 +67,8 @@
     <Folder Include="BaoMa_Chatapp\" />
     <Folder Include="chat_manage\" />
     <Folder Include="chat_manage\migrations\" />
+    <Folder Include="chat_manage\static\" />
+    <Folder Include="chat_manage\static\Chat\" />
     <Folder Include="chat_manage\templates\" />
     <Folder Include="chat_manage\templates\chat_manage\" />
   </ItemGroup>

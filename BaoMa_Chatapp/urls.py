@@ -22,7 +22,7 @@ from django.urls import include, path
 
 urlpatterns = [
     
-    path('',include('chat_manage.urls')),
+    path('chat/',include('chat_manage.urls')),
     # Uncomment the next line to enable the admin:
     #path('admin/', admin.site.urls)
 ]

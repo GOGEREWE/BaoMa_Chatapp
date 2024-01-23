@@ -5,7 +5,7 @@ Command-line utility for administrative tasks.
 # For more information about this file, visit
 # https://docs.djangoproject.com/en/2.1/ref/django-admin/
 """
-
+# coding=utf-8
 import os
 import sys
 
