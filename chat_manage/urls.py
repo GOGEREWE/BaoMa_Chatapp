@@ -1,11 +1,9 @@
-from django.urls import include, path
-from chat_manage import views
+# chat/urls.py
+from django.urls import path
 
-app_name="chat_manage"
+from . import views
 
-urlpatterns = [ 
-    
-    path('<str:room_name>',views.room,name="room"),
-    path('',views.index,name="index"),
-
+urlpatterns = [
+    path("", views.index, name="index"),
+    path("<str:room_name>/", views.room, name="room"),
 ]

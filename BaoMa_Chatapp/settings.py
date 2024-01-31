@@ -25,12 +25,13 @@ SECRET_KEY = '6ea4838c-9903-4d40-9e9c-d962a78f3454'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Application references
 # https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-INSTALLED_APPS
 INSTALLED_APPS = [
     # Add your apps here to enable them
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -73,15 +74,14 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'BaoMa_Chatapp.wsgi.application'
+# WSGI_APPLICATION = 'BaoMa_Chatapp.wsgi.application'
+
 ASGI_APPLICATION = 'BaoMa_Chatapp.asgi.application'
-
-
 CHANNEL_LAYERS = {
     "default":{
         "BACKEND":"channels_redis.core.RedisChannelLayer",
         "CONFIG":{
-            "hosts":[('localhost',9000)],
+            "hosts":[('127.0.0.1',6379)],
         },
     },    
 }
@@ -89,11 +89,22 @@ CHANNEL_LAYERS = {
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+     'default': {
+         'ENGINE': 'django.db.backends.sqlite3',
+         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'BaoMa',
+#         'USER':'root',
+#         'PASSWORD':'123456',
+#         'HOST':'127.0.0.1',
+#         'PORT':'3306',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

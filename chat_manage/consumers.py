@@ -1,49 +1,40 @@
-# from channels import Group
-# def ws_connect(message):
-#     Group('users').add(message.reply_channel)
-# def ws_disconnect(message):
-#     Group('users').discard(message.reply_channel)
+import json
 
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
-from channels.exceptions import StopConsumer
-import json
-import datetime
 
 
 class ChatConsumer(WebsocketConsumer):
-    def websocket_connect(self):
-        self.room_name = self.scope['url_route']['kwargs']['room_name']
-        self.room_group_name = 'chat_%s' % self.room_name
-        
-        async_to_sync(self.cannel_layer.group_add)(self.room_name,self.room_group_name)
+    def connect(self):
+        self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
+        self.room_group_name = f"chat_{self.room_name}"
+
+        # Join room group
+        async_to_sync(self.channel_layer.group_add)(
+            self.room_group_name, self.channel_name
+        )
+
         self.accept()
 
-    def websocket_receive(self, message):
-        print("接收成功")
-        message_json = json.loads(message)
-        message_send = message_json['message']
+    def disconnect(self, close_code):
+        # Leave room group
+        async_to_sync(self.channel_layer.group_discard)(
+            self.room_group_name, self.channel_name
+        )
+
+    # Receive message from WebSocket
+    def receive(self, text_data):
+        text_data_json = json.loads(text_data)
+        message = text_data_json["message"]
+
+        # Send message to room group
         async_to_sync(self.channel_layer.group_send)(
-            self.room_name,
-            {
-             'type': 'chat_message',
-             'message': message
-            })
-    
+            self.room_group_name, {"type": "chat.message", "message": message}
+        )
 
+    # Receive message from room group
     def chat_message(self, event):
-        message = event['message']
-        datetime_str = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        
-        self.send(text_data=json.dump({
-            
-            'message':f'{datetime_str}:{message}'    
-            
-        }))
+        message = event["message"]
 
-
-    def websocket_disconnect(self, close_code):
-        print("断开连接")
-        async_to_sync(self.channel_layer.group_discinnect)(self.room_name,self.room_group_name)
-        raise StopConsumer()
-    
+        # Send message to WebSocket
+        self.send(text_data=json.dumps({"message": message}))
