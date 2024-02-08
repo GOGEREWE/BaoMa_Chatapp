@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'channels',
     'chat_manage',
+    #'Friend_referrals',
 ]
 
 # Middleware framework
