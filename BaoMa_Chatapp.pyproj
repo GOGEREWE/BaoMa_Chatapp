@@ -5,6 +5,7 @@
     <RootNamespace>BaoMa_Chatapp</RootNamespace>
     <InterpreterId>MSBuild|django|$(MSBuildProjectFullPath)</InterpreterId>
     <TestFramework>Pytest</TestFramework>
+    <WebBrowserPort>8008</WebBrowserPort>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -18,7 +19,7 @@
     <WorkingDirectory>.</WorkingDirectory>
     <LaunchProvider>Django launcher</LaunchProvider>
     <DjangoSettingsModule>BaoMa_Chatapp.settings</DjangoSettingsModule>
-    <WebBrowserUrl>http://localhost</WebBrowserUrl>
+    <WebBrowserUrl>http://127.0.0.1</WebBrowserUrl>
     <OutputPath>.</OutputPath>
     <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
   </PropertyGroup>
@@ -31,6 +32,16 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="article_manage\admin.py" />
+    <Compile Include="article_manage\apps.py" />
+    <Compile Include="article_manage\migrations\__init__.py" />
+    <Compile Include="article_manage\models.py" />
+    <Compile Include="article_manage\tests.py" />
+    <Compile Include="article_manage\urls.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="article_manage\views.py" />
+    <Compile Include="article_manage\__init__.py" />
     <Compile Include="BaoMa_Chatapp\asgi.py">
       <SubType>Code</SubType>
     </Compile>
@@ -50,27 +61,91 @@
     </Compile>
     <Compile Include="chat_manage\views.py" />
     <Compile Include="chat_manage\__init__.py" />
+    <Compile Include="Friends_manage\admin.py" />
+    <Compile Include="Friends_manage\apps.py" />
+    <Compile Include="Friends_manage\migrations\__init__.py" />
+    <Compile Include="Friends_manage\models.py" />
+    <Compile Include="Friends_manage\tests.py" />
+    <Compile Include="Friends_manage\views.py" />
+    <Compile Include="Friends_manage\__init__.py" />
+    <Compile Include="referrals\admin.py" />
+    <Compile Include="referrals\apps.py" />
+    <Compile Include="referrals\migrations\__init__.py" />
+    <Compile Include="referrals\models.py" />
+    <Compile Include="referrals\tests.py" />
+    <Compile Include="referrals\urls.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="referrals\views.py" />
+    <Compile Include="referrals\__init__.py" />
     <Compile Include="manage.py" />
     <Compile Include="BaoMa_Chatapp\__init__.py" />
     <Compile Include="BaoMa_Chatapp\settings.py" />
     <Compile Include="BaoMa_Chatapp\urls.py" />
     <Compile Include="BaoMa_Chatapp\wsgi.py" />
+    <Compile Include="search\admin.py" />
+    <Compile Include="search\apps.py" />
+    <Compile Include="search\migrations\__init__.py" />
+    <Compile Include="search\models.py" />
+    <Compile Include="search\tests.py" />
+    <Compile Include="search\views.py" />
+    <Compile Include="search\__init__.py" />
+    <Compile Include="topic_manage\admin.py" />
+    <Compile Include="topic_manage\apps.py" />
+    <Compile Include="topic_manage\migrations\__init__.py" />
+    <Compile Include="topic_manage\models.py" />
+    <Compile Include="topic_manage\tests.py" />
+    <Compile Include="topic_manage\views.py" />
+    <Compile Include="topic_manage\__init__.py" />
+    <Compile Include="users_manage\admin.py" />
+    <Compile Include="users_manage\apps.py" />
+    <Compile Include="users_manage\migrations\__init__.py" />
+    <Compile Include="users_manage\models.py" />
+    <Compile Include="users_manage\tests.py" />
+    <Compile Include="users_manage\views.py" />
+    <Compile Include="users_manage\__init__.py" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="chat_manage\static\Chat\chat_room.js" />
-    <Content Include="chat_manage\static\Chat\index.js" />
+    <Content Include="article_manage\templates\article_manage\index.html" />
     <Content Include="chat_manage\templates\chat_manage\chat_room.html" />
     <Content Include="chat_manage\templates\chat_manage\index.html" />
+    <Content Include="Friends_manage\templates\Friends_manage\index.html" />
+    <Content Include="referrals\templates\Friend_referrals\index.html" />
     <Content Include="requirements.txt" />
+    <Content Include="search\templates\search\index.html" />
+    <Content Include="topic_manage\templates\topic_manage\index.html" />
+    <Content Include="users_manage\templates\users_manage\index.html" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="article_manage\" />
+    <Folder Include="article_manage\migrations\" />
+    <Folder Include="article_manage\templates\" />
+    <Folder Include="article_manage\templates\article_manage\" />
     <Folder Include="BaoMa_Chatapp\" />
     <Folder Include="chat_manage\" />
     <Folder Include="chat_manage\migrations\" />
-    <Folder Include="chat_manage\static\" />
-    <Folder Include="chat_manage\static\Chat\" />
     <Folder Include="chat_manage\templates\" />
     <Folder Include="chat_manage\templates\chat_manage\" />
+    <Folder Include="Friends_manage\" />
+    <Folder Include="Friends_manage\migrations\" />
+    <Folder Include="Friends_manage\templates\" />
+    <Folder Include="Friends_manage\templates\Friends_manage\" />
+    <Folder Include="referrals\" />
+    <Folder Include="referrals\migrations\" />
+    <Folder Include="referrals\templates\" />
+    <Folder Include="referrals\templates\Friend_referrals\" />
+    <Folder Include="search\" />
+    <Folder Include="search\migrations\" />
+    <Folder Include="search\templates\" />
+    <Folder Include="search\templates\search\" />
+    <Folder Include="topic_manage\" />
+    <Folder Include="topic_manage\migrations\" />
+    <Folder Include="topic_manage\templates\" />
+    <Folder Include="topic_manage\templates\topic_manage\" />
+    <Folder Include="users_manage\" />
+    <Folder Include="users_manage\migrations\" />
+    <Folder Include="users_manage\templates\" />
+    <Folder Include="users_manage\templates\users_manage\" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="django\">
