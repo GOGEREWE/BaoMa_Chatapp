@@ -2,5 +2,8 @@ from django.urls import path
 from . import views
 
 urlpattern=[
-    path('/load',views.load_art)
+    
+    path('upload/',views.add_article),
+    path('download/',views.load_art),
+
 ]

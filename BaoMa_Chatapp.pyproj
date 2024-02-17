@@ -19,7 +19,8 @@
     <WorkingDirectory>.</WorkingDirectory>
     <LaunchProvider>Django launcher</LaunchProvider>
     <DjangoSettingsModule>BaoMa_Chatapp.settings</DjangoSettingsModule>
-    <WebBrowserUrl>http://127.0.0.1</WebBrowserUrl>
+    <WebBrowserUrl>
+    </WebBrowserUrl>
     <OutputPath>.</OutputPath>
     <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
   </PropertyGroup>

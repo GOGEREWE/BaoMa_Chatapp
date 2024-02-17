@@ -19,9 +19,9 @@ class candidate:
         #other...
 
 #处理用户信息，完成好友推荐功能，通过Http返回json格式的推荐用户信息
-def friend_referral(request,user_id):
-    
-    
+def friend_referral(request):
+    data_dict = json.loads(request)
+    user_id = data_dict.id
     can_user=[]
     user = user.objects.get(id=user_id)
 
@@ -31,9 +31,10 @@ def friend_referral(request,user_id):
             i = 0
             inclusion = count_duplicate_characters(user.tag,users_count.tag)/len(users_count.tag)
             if inclusion > 0.5 and not users_count.id in user.item:
+                candidate.distance = calculate_distance(user.lon_lat[0],user.lon_lat[1],users_count.lon_lat[0],users_count.lon_lat[1])
                 candidate.id = users_count.id
                 candidate.inclusion = inclusion
-                candidate.distance = calculate_distance(user.lon_lat[0],user.lon_lat[1],users_count.lon_lat[0],users_count.lon_lat[1])
+                
                 can_user.append(candidate())
         
     json_candidate = json.dumps(can_user)
