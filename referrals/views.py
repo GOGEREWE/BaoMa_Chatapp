@@ -1,8 +1,8 @@
 import json
 from django.db.models import Q
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
-from models import user,article
+from django.http import JsonResponse
+#from django.shortcuts import render
+from models import users,article
 from math import sin, cos, sqrt, atan2, radians,degrees
 # Create your views here.
 
@@ -11,36 +11,45 @@ from math import sin, cos, sqrt, atan2, radians,degrees
 #         self.id=""
 #         self.tag=""
 #         self.lon_lat=[]
-class candidate:
-    def __int__(self):
-        self.id=""         #ÓÃ»§ID
-        self.name=""       #ÓÃ»§Ãû
-        self.inclusion=""  #ÓÃ»§ÍÆ¼öÖµ
-        self.distance=""   #ÓÃ»§¾àÀë
-        #other...
 
-#´¦ÀíÓÃ»§ĞÅÏ¢£¬Íê³ÉºÃÓÑÍÆ¼ö¹¦ÄÜ£¬Í¨¹ıHttp·µ»Øjson¸ñÊ½µÄÍÆ¼öÓÃ»§ĞÅÏ¢
-#Ä£ºıÍÆ¼ö´¦Àí
-def friend_referral(request,user_id): 
+
+def friend_referral(request):
+
+    class candidate:
+        def __int__(self):
+            self.id=""     
+            self.name=""
+            self.inclusion=""
+            self.distance=""
+            #other...
+    uid = request.GET.get('my_id')
     data_dict = json.loads(request)
+
     #user_id = data_dict.id
 
-    ch_tag = data_dict.tag  #±ØĞë±êÇ©
-    _age = data_dict.age    #Ä¸×ÓÄêÁä·¶Î§
-    work_status = data_dict.work_satus   #¹¤×÷×´Ì¬
-    dist = data_dict.distance #¾àÀë·¶Î§
-    this_user = user.objects.get(id=user_id)
+    ch_tag = data_dict.tag  
+    _age = data_dict.age    
+    work_status = data_dict.work_satus   
+    dist = data_dict.distance
+    this_user = users.objects.get(id=uid)
     can_user=[]
     
     min_lat, max_lat, min_lon, max_lon = calculate_bounding_box(this_user.lat,this_user.lon,dist)
-    condition = Q(lat__gte=min_lat)&Q(lat__lte=max_lat)&Q(lon__gte=min_lon)&Q(lon__lte=max_lon)&Q(age__gte=_age[0][0])&Q(age__lte=_age[0][1])&Q(child__gte=_age[1][0])&Q(child__lte=_age[1][1])
-    users = user.objects.filter(condition)
-    # condition = Q(age__gte=_age[0][0])&Q(age__lte=_age[0][1])&Q(child__gte=_age[1][0])&Q(child__lte=_age[1][1])
-    
+    condition = Q(lat__gte=min_lat)\
+                &Q(lat__lte=max_lat)\
+                &Q(lon__gte=min_lon)\
+                &Q(lon__lte=max_lon)\
+                &Q(age__gte=_age[0][0])\
+                &Q(age__lte=_age[0][1])\
+                &Q(child__gte=_age[1][0])\
+                &Q(child__lte=_age[1][1])
+    this_users = users.objects.filter(condition)
 
+    # condition = Q(age__gte=_age[0][0])&Q(age__lte=_age[0][1])&Q(child__gte=_age[1][0])&Q(child__lte=_age[1][1])
         # if len(can_user) < 10:
         #     users = user.objects.order_by('?')[:10]
-    for users_count in users:
+    
+    for users_count in this_users:
         inclusion = count_duplicate_characters(ch_tag,users_count.tag)/len(users_count.tag)
         if inclusion > 1 and not users_count.id in this_user.item:
             candidate.distance = calculate_distance(this_user.lon_lat[0],this_user.lon_lat[1],users_count.lon_lat[0],users_count.lon_lat[1])
@@ -52,32 +61,41 @@ def friend_referral(request,user_id):
     json_candidate = json.dumps(can_user)
     return JsonResponse(json_candidate,content_type='application/json')
 
-#ÎÄÕÂÍÆ¼ö¹¦ÄÜ£¬¸ù¾İ±êÇ©ÏàËÆ¶È£¬ÎªÓÃ»§ÍÆ¼ö°üº¬ÓÚÓÃ»§ĞËÈ¤·¶Î§ÄÚµÄÎÄÕÂÄÚÈİ
-def rec_articel(request,user_id):
-    can_articel=[]
-    user = request.user
+def rec_articel(request):
 
+    class candidate:
+            def __int__(self):
+                self.id=""     
+                self.content=""
+                self.inclusion=""
+                #other...
+    uid = request.GET.get('my_id')
+    can_articel=[]
+    #user = request.user
+
+    user = users.objects.get(id=uid)
     if len(can_articel) < 10:
         articles = article.objects.order_by('?')[:10]
         for article_count in articles:
-            i = 0
             inclusion = count_duplicate_characters(user.tag,article_count.tag)/len(user.tag)
+            
             if inclusion > 0.5 and not article_count.id in user.item:
                 candidate.id = article_count.id
+                candidate.content = article_count.content
                 candidate.inclusion = inclusion
                 can_articel.append(candidate())
-        
+
     json_articel = json.dumps(can_articel)
     return JsonResponse(json_articel,content_type='application/json')
 
-#¼ÆËã±êÇ©ÏàËÆ¶È
+#æ ‡ç­¾ç›¸ä¼¼åº¦è®¡ç®—
 def count_duplicate_characters(str1, str2):
     set1 = set(str1)
     set2 = set(str2)
     common_chars = set1.intersection(set2)
     return len(common_chars)
 
-#¸ù¾İ¾­Î³¶È¼ÆËãÖ±Ïß¾àÀë
+#æ±‚è§£ç”¨æˆ·ç›´çº¿è·ç¦»
 def calculate_distance(lat1, lon1, lat2, lon2):
     R = 6371.0
     lat1_rad = radians(lat1)
@@ -91,20 +109,18 @@ def calculate_distance(lat1, lon1, lat2, lon2):
     distance = R * c
     return distance
 
+#æ±‚è§£è·ç¦»èŒƒå›´å†…çš„ç”¨æˆ·ä½ç½®
 def calculate_bounding_box(center_lat, center_lon, distance):
-    # µØÇò°ë¾¶£¬µ¥Î»£º¹«Àï
+
     radius = 6371
 
-    # ½«ÖĞĞÄµãµÄ¾­Î³¶È×ª»»Îª»¡¶È
     center_lat_rad = radians(center_lat)
     center_lon_rad = radians(center_lon)
 
-    # ¼ÆËãÎ³¶ÈµÄ·¶Î§
     lat_diff = distance / radius
     min_lat = degrees(center_lat_rad - lat_diff)
     max_lat = degrees(center_lat_rad + lat_diff)
 
-    # ¼ÆËã¾­¶ÈµÄ·¶Î§
     lon_diff = distance / (radius * cos(center_lat_rad))
     min_lon = degrees(center_lon_rad - lon_diff)
     max_lon = degrees(center_lon_rad + lon_diff)

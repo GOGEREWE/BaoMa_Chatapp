@@ -2,7 +2,7 @@ from itertools import takewhile
 from django.shortcuts import render
 import json
 from django.http import HttpResponse, JsonResponse
-#导入数据库模板
+
 from models import article
 
 
@@ -10,7 +10,7 @@ from models import article
 
 
 
-#接收文章数据，文章数据格式分为题头与内容
+
 def add_article(request):
     if request.method == "POST":
         req = json.loads(request.body)
@@ -28,7 +28,7 @@ def add_article(request):
         return JsonResponse({"status":"BS.400","message":"publish article failed!!!"})
 
 
-#接收文章数据，文章数据格式分为题头与内容
+
 def add_article(request):
     if request.method == "POST":
         req = json.loads(request.body)
@@ -42,7 +42,7 @@ def add_article(request):
         add_comm.save()
 
 
-#接收用户请求，返回文章数据
+
 def load_article(request):
     if request.method == "GET":
         req = article.objects.order_by('?')[:10]
@@ -52,7 +52,7 @@ def load_article(request):
         
     return JsonResponse(articles,safe=False)
 
-#返回用户创作的文章
+
 def my_article(request):
     articles=[]
     if request.method == "GET":

@@ -1,32 +1,40 @@
 from django.http.response import JsonResponse
 from django.shortcuts import render
-from models import article,user
+from models import article
 from django.db.models import Q
-import json
 # Create your views here.
 
 def search_article(request):
-    
-    # table1.objects.filter(id__lt=10,id__gt=1)#»ñÈ¡idĞ¡ÓÚ10,ÇÒ´óÓÚ1µÄ¼ÇÂ¼
-    # table1.objects.filter(id__in=[11,22,33,44])#»ñÈ¡idÔÚ[11,22,33,44]ÖĞµÄ¼ÇÂ¼
-    # table1.objects.exclude(id__in=[11,22,33,44])#»ñÈ¡id²»ÔÚ[11,22,33,44]ÖĞµÄ¼ÇÂ¼
-    # table1.objects.filter(name__contains="content1")#»ñÈ¡nameÖĞ°üº¬ÓĞ"contents"µÄ¼ÇÂ¼(Çø·Ö´óĞ¡Ğ´)
-    # table1.objects.filter(name__icontains="content1")#»ñÈ¡nameÖĞ°üº¬ÓĞ"content1"µÄ¼ÇÂ¼(²»Çø·Ö´óĞ¡Ğ´)
- 
-    # table1.objects.filter(id__range=[1,4])#»ñÈ¡idÔÚ1µ½4(²»°üº¬4)Ö®¼äµÄµÄ¼ÇÂ¼
+    q = request.GET.get('q')
+    tag = request.GET.get('tag')
+    error_msg = ''
+    result = {'error_msg':error_msg}
+    if not q:
+        error_msg = "è¯·è¾“å…¥å…³é”®è¯"
+        return JsonResponse(result)
+    articles = article.objects.filter(Q(title__icontains=q)|Q(content__icontains=q))
+    for this_tag in tag:
+        condition = condition & Q(tag__icontain=this_tag)
 
-    data_dict = json.loads(request)
-    key = data_dict["key"]
-    #·µ»ØÒ»¸ö±êÌâ°üº¬¹Ø¼ü×ÖµÄÎÄÕÂÊı¾İ
-    articles = article.objects.filter(title__icontains=key)
-    
+    article_list = articles.objects.filter(condition)
+    result['article_list'] = article_list
     return JsonResponse(articles,safe=True)
 
 def search_article(request):
+    q = request.GET.get('q')
+    error_msg = ''
+    result = {'error_msg':error_msg}
+    if not q:
+        error_msg = "è¯·è¾“å…¥å…³é”®è¯"
+        return JsonResponse(result)
+    article_list = article.objects.filter(Q(title__icontains=q)|Q(content__icontains=q))
+    result['article_list']=article_list
+    return JsonResponse(result)
 
 
-    data_dict = json.loads(request)
-    key = data_dict["id"]
-    #·µ»ØÒ»¸ö±êÌâ°üº¬¹Ø¼ü×ÖµÄÎÄÕÂÊı¾İ
-    users = user.objects.get(id = key)
-    return JsonResponse(users,safe=True)
+    # table1.objects.filter(id__lt=10,id__gt=1)#ï¿½ï¿½È¡idĞ¡ï¿½ï¿½10,ï¿½Ò´ï¿½ï¿½ï¿½1ï¿½Ä¼ï¿½Â¼
+    # table1.objects.filter(id__in=[11,22,33,44])#ï¿½ï¿½È¡idï¿½ï¿½[11,22,33,44]ï¿½ĞµÄ¼ï¿½Â¼
+    # table1.objects.exclude(id__in=[11,22,33,44])#ï¿½ï¿½È¡idï¿½ï¿½ï¿½ï¿½[11,22,33,44]ï¿½ĞµÄ¼ï¿½Â¼
+    # table1.objects.filter(name__contains="content1")#ï¿½ï¿½È¡nameï¿½Ğ°ï¿½ï¿½ï¿½ï¿½ï¿½"contents"ï¿½Ä¼ï¿½Â¼(ï¿½ï¿½ï¿½Ö´ï¿½Ğ¡Ğ´)
+    # table1.objects.filter(name__icontains="content1")#ï¿½ï¿½È¡nameï¿½Ğ°ï¿½ï¿½ï¿½ï¿½ï¿½"content1"ï¿½Ä¼ï¿½Â¼(ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ğ¡Ğ´)
+    # table1.objects.filter(id__range=[1,4])#ï¿½ï¿½È¡idï¿½ï¿½1ï¿½ï¿½4(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½4)Ö®ï¿½ï¿½ÄµÄ¼ï¿½Â¼

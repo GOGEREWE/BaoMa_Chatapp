@@ -1,0 +1,235 @@
+# 宝妈-Django接口文档
+
+## referrals
+
+### 好友推荐
+
+`/referrals/friend/<str:user_id>/`
+
+* 接收数据
+
+```json
+{
+    # age为所选择的年龄范围
+    my_id:"",
+    tag:"",
+    age:[ min: "", max: ""],
+    work_staus:(int),
+    distance:(int),
+}
+```
+
+* 返回数据
+
+```json
+{
+    # 返回一个字典列表
+    [
+        {
+            id:"",
+            distance:"",
+            inclusion:""
+        },
+        {
+            ...
+        },
+        ...
+    ]
+}
+```
+
+### 文章推荐
+
+`/referrals/articel/<str:user_id>/`
+
+* 接收数据
+
+```json
+{
+    my_id:"",
+    tag:"",
+}
+```
+
+* 返回数据
+
+```json
+{
+    # 返回一个字典列表
+    [
+        {
+            id:"",
+            content:"",
+            inclusion:""
+        },
+        {
+            ...
+        },
+        ...
+    ]
+}
+```
+
+## chat_manage
+
+### 进入聊天室
+
+`/chat/home`
+
+* 接收数据
+
+```json
+{
+
+    my_id:"",  #用户ID
+    o_id:""    #对象ID
+
+}
+```
+
+* 返回数据
+
+```json
+{
+
+    room_name:"",
+
+}
+```
+
+### 发送消息
+
+`/chat/send`
+
+* 接收数据
+
+```json
+{
+
+    room_name:"",  #房间名
+    content:"",    #内容
+
+}
+```
+
+* 返回数据
+
+```json
+{
+    "send sucess!!!"
+}
+```
+
+### 接收消息
+
+`/chat/receive`
+
+* 接收数据
+
+```json
+{
+
+    room_name:"",  #房间名
+    my_id:"",
+
+}
+```
+
+* 返回数据
+
+```json
+{
+    status:True/False  #队列中是否接收到消息
+    data:""
+}
+```
+
+## Friends_manage
+
+### 添加好友
+
+`/friends/add`
+
+* 接收数据
+
+```json
+{
+
+    my_id:"",
+    friend_id:"",
+
+}
+```
+
+* 返回数据
+
+```json
+{
+    False/True #False代表添加失败
+}
+```
+
+### 删除好友
+
+`/friends/remove`
+
+* 接收数据
+
+```json
+{
+
+    my_id:"",
+    friend_id:"",
+
+}
+```
+
+* 返回数据
+
+```json
+{
+    False/True #False代表删除失败
+}
+```
+
+## search
+
+### 关键词搜索
+
+`/search/`
+
+* 接收数据
+
+```json
+{
+
+    q:"",
+
+}
+```
+
+* 返回数据
+
+```json
+{
+    # 返回一个字典列表
+    [
+        {
+            id:"",     #文章ID
+            content:"",
+            inclusion:""
+        },
+        {
+            ...
+        },
+        ...
+    ]
+}
+```
+
+
+
+
+
+
+
